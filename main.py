@@ -19,10 +19,7 @@ def save_tasks(fname='tasks.txt'):
             completed = task.get('completed', False)
             file.write(f"{task['name']}|{task['due_date']}|{completed}\n")
 
-def add_task(event=None):
-  task_name = input("Please enter the task name: ")
-  due_date = input("Enter the due date (YYYY-MM-DD): ")
-
+def add_task(task_name, due_date):
   try:
         # Attempt to convert the date
         datetime.strptime(due_date, '%Y-%m-%d')
@@ -33,9 +30,27 @@ def add_task(event=None):
 
   if task_name and date_valid:
         tasks.append({'name': task_name, 'due_date': due_date})
-        print(f"Task '{task_name}' by '{due_date}' added.")
+        return True
   else:
-        print("Please enter a valid task name and due date in the format YYYY-MM-DD.")
+      return False
+
+# def add_task(event=None):
+#   task_name = input("Please enter the task name: ")
+#   due_date = input("Enter the due date (YYYY-MM-DD): ")
+
+#   try:
+#         # Attempt to convert the date
+#         datetime.strptime(due_date, '%Y-%m-%d')
+#         date_valid = True
+#   except ValueError:
+#         # If converting fails, the date format is incorrect
+#         date_valid = False
+
+#   if task_name and date_valid:
+#         tasks.append({'name': task_name, 'due_date': due_date})
+#         print(f"Task '{task_name}' by '{due_date}' added.")
+#   else:
+#         print("Please enter a valid task name and due date in the format YYYY-MM-DD.")
 
 
 def list_tasks():
@@ -47,6 +62,14 @@ def list_tasks():
             print(f"{i}. {task['name']} (Due: {task['due_date']})")
 
 
+def mark_task_complete(index):
+    if 0 <= index < len(tasks):
+        tasks[index]['completed'] = True
+        save_tasks()
+        return True
+    return False
+
+"""
 def mark_task_complete():
     list_tasks()
     try:
@@ -59,8 +82,22 @@ def mark_task_complete():
             print("Invalid task number.")
     except ValueError:
         print("Please enter a valid number.")
+"""
 
-        
+def edit_task(index, new_name, new_due_date):
+    if 0 <= index < len(tasks):
+        task = tasks[index]
+        if new_name:
+            task['name'] = new_name
+        if new_due_date:
+            try:
+                datetime.strptime(new_due_date, '%Y-%m-%d')
+                task['due_date'] = new_due_date
+            except ValueError:
+                return False
+        return task
+    return False
+"""     
 def edit_task():
     list_tasks()
     try:
@@ -85,7 +122,7 @@ def edit_task():
             print("Invalid task number.")
     except ValueError:
         print("Please enter a valid number.")
-
+"""
 
 def sort_by_due_date():
     # Sort tasks by the due date (assuming format YYYY-MM-DD for proper sorting)
@@ -104,17 +141,25 @@ def sort_by_name():
 - Try except used to cater for errors in case we don't get the correct input preventing the program from crashing.
 """
         
-def delete_task():
-   list_tasks()
-   try:
-        taskToDelete = int(input("Enter the task number to delete: ")) - 1
-        if 0 <= taskToDelete < len(tasks):
-            removed_task = tasks.pop(taskToDelete)
-            print(f"Task '{removed_task['name']}' deleted.")
-        else:
-            print("Invalid task number.")
-   except ValueError:
-        print("Please enter a valid number.")
+def delete_task(index):
+   if 0 <= index < len(tasks):
+       del tasks[index]
+       return True
+   else:
+       return False
+
+
+# def delete_task():
+#    list_tasks()
+#    try:
+#         taskToDelete = int(input("Enter the task number to delete: ")) - 1
+#         if 0 <= taskToDelete < len(tasks):
+#             removed_task = tasks.pop(taskToDelete)
+#             print(f"Task '{removed_task['name']}' deleted.")
+#         else:
+#             print("Invalid task number.")
+#    except ValueError:
+#         print("Please enter a valid number.")
 
 
 if __name__ == "__main__":

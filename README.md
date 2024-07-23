@@ -14,6 +14,7 @@ This project will cover fundamental Python concepts like
 -basic user input/output.
 
 Features to Implement:
+
 A) Add Task:
 - Allow users to add tasks to the to-do list. Each task should have a name and
 a due date.
@@ -46,17 +47,3 @@ incorrect input.
 
 - Provide a clear and user-friendly interface with instructions for the user.
 
-def add_task(task_name, due_date):
-  try:
-        # Attempt to convert the date
-        datetime.strptime(due_date, '%Y-%m-%d')
-        date_valid = True
-  except ValueError:
-        # If converting fails, the date format is incorrect
-        date_valid = False
-
-  if task_name and date_valid:
-        tasks.append({'name': task_name, 'due_date': due_date})
-        return True
-  else:
-      return False
