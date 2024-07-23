@@ -1,6 +1,6 @@
 import tkinter as tk
 from tkinter import *
-from tkinter import StringVar, Entry, Button, Frame, Listbox, Scrollbar,messagebox
+from tkinter import  Frame, Listbox, Scrollbar,messagebox
 from main import tasks, add_task, delete_task, mark_task_complete, edit_task, sort_by_due_date,sort_by_name
 
 root=Tk()
